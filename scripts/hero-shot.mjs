@@ -33,7 +33,7 @@ const SIZE = sizeArg === -1 ? 1200 : Number(args[sizeArg + 1])
 // Everything that is not a flag or a flag's value is a concept name.
 const wanted = args.filter((a, i) => !a.startsWith('--') && !(sizeArg !== -1 && i === sizeArg + 1))
 
-// One dish, three directions -- the same claim the hero copy makes. The dish
+// One dish, two directions -- the same claim the hero copy makes. The dish
 // matches the studio's starter and the demo further down the landing page, so
 // the whole page is talking about one plate.
 const DISH = {
@@ -63,12 +63,6 @@ const CONCEPTS = [
     note: 'Round white · sauce dotted · low build',
     slug: 'garden-scatter',
     spec: { composition: 'scattered', plate: 'round-white', sauce: 'dotted', height: 'low', garnish: 'generous', seed: 5 },
-  },
-  {
-    name: 'Slate linear',
-    note: 'Black slate · sauce dotted · low build',
-    slug: 'slate-linear',
-    spec: { composition: 'linear', plate: 'black-slate', sauce: 'dotted', height: 'low', garnish: 'moderate', seed: 33 },
   },
 ]
 
