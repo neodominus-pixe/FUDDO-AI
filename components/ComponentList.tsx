@@ -99,7 +99,7 @@ export default function ComponentList({ components, previews, uploading, onChang
                 dragging ? 'opacity-60 shadow-lg' : ''
               } ${target ? (drag!.from < i ? 'border-b-2 border-b-brand border-rule' : 'border-t-2 border-t-brand border-rule') : 'border-rule'}`}
             >
-              <div className="flex items-center gap-0.5 sm:gap-1">
+              <div className="flex flex-wrap items-center gap-0.5 sm:flex-nowrap sm:gap-1">
                 <button
                   type="button"
                   onPointerDown={(e) => startDrag(e, i)}
@@ -130,14 +130,14 @@ export default function ComponentList({ components, previews, uploading, onChang
                   placeholder="Component name"
                   maxLength={80}
                   aria-label={`Component ${i + 1} name`}
-                  className="field min-w-0 flex-1 px-2 text-base md:text-sm"
+                  className="field min-w-0 flex-1 basis-[calc(100%-3.25rem)] px-2 text-base sm:basis-0 md:text-sm"
                 />
                 <select
                   value={c.role}
                   onChange={(e) => onChange(c.id, { role: e.target.value as ComponentRole })}
                   aria-label={`Role of ${label}`}
                   title={ROLE_HINT[c.role]}
-                  className="field min-h-11 w-[6rem] shrink-0 px-1 text-sm sm:w-[6.5rem] sm:px-2 py-1 text-base md:text-sm"
+                  className="field min-h-11 min-w-0 flex-1 px-1 py-1 text-base sm:w-[6.5rem] sm:flex-none sm:shrink-0 sm:px-2 md:text-sm"
                 >
                   {ROLES.map((r) => (
                     <option key={r} value={r}>

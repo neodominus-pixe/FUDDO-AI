@@ -147,7 +147,7 @@
   gap: 8px;
   margin-bottom: 22px;
   border-bottom: 1px solid var(--rule);
-  overflow-x: auto;
+  flex-wrap: wrap;
 }
 .admin-tabs button {
   border: 0;
@@ -172,6 +172,18 @@
   border-radius: 14px;
   background: var(--raised);
   overflow: hidden;
+}
+/* A table wider than the screen scrolls inside this box, and the soft shadow at an
+   edge says there is more that way. position: relative keeps the table's hidden
+   labels inside the box: without it they stretch the whole page on a phone. */
+.admin-table-scroll {
+  position: relative;
+  overflow-x: auto;
+  background:
+    linear-gradient(to right, var(--raised) 30%, transparent) left / 40px 100% no-repeat local,
+    linear-gradient(to left, var(--raised) 30%, transparent) right / 40px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgb(0 0 0 / 0.2), transparent) left / 14px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgb(0 0 0 / 0.2), transparent) right / 14px 100% no-repeat scroll;
 }
 .admin-toolbar {
   display: flex;
@@ -200,7 +212,7 @@
   background: var(--sunken);
   color: var(--faint);
   font-weight: 600;
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.09em;
   white-space: nowrap;
@@ -236,7 +248,7 @@
   display: inline-block;
   padding: 4px 10px;
   border-radius: 99px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
   background: var(--accent-soft);
@@ -473,5 +485,13 @@
   }
   .admin-toolbar > label:not(.admin-search) {
     flex: 1;
+  }
+}
+
+@media (max-width: 767.98px), (pointer: coarse) {
+  .admin-row-actions a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 }

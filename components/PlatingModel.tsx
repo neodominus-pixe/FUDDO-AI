@@ -157,12 +157,12 @@ export default function PlatingModel({
         onCapture={onCapture}
       />
       {busy ? (
-        <div className="pointer-events-none absolute right-2 top-2 rounded bg-scrim/80 px-2 py-1 text-[10px] text-brand-ink">
+        <div className="pointer-events-none absolute right-2 top-2 rounded bg-scrim/80 px-2 py-1 text-[12px] text-brand-ink">
           updating
         </div>
       ) : null}
       <div className="pointer-events-none absolute bottom-2 left-2 right-2 flex items-end justify-between gap-2">
-        <span className="rounded bg-scrim/70 px-2 py-1 text-[10px] text-muted backdrop-blur-sm">
+        <span className="rounded bg-scrim/70 px-2 py-1 text-[12px] text-muted backdrop-blur-sm">
           {editable ? 'drag food to move it · drag the background to orbit' : 'drag to orbit · pinch or scroll to zoom'} &middot;{' '}
           {data.parts} parts
           {making > 0 ? ` · photographing ${making} ingredient${making === 1 ? '' : 's'}…` : ''}
@@ -170,7 +170,7 @@ export default function PlatingModel({
         {/* Cost is for whoever is paying the bill. The consultant opens this page
             as a client and must never see per-render provider pricing. */}
         {cheapest && editable ? (
-          <span className="rounded bg-scrim/70 px-2 py-1 text-right text-[10px] text-muted backdrop-blur-sm">
+          <span className="rounded bg-scrim/70 px-2 py-1 text-right text-[12px] text-muted backdrop-blur-sm">
             real 3D: ~${cheapest.batchCost.toFixed(2)}, ~{cheapest.batchSeconds}s
             <br />
             on {cheapest.label}
