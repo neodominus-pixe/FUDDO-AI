@@ -94,8 +94,8 @@ export default function Process({ onPick }: { onPick: (concept: number) => void 
             <MiniPlate concept={4} ids={BRIEF} />
             <div>
               <small>Consultant review</small>
-              <h3>Concept 05 · Organic</h3>
-              <p>“Pull the purée left a touch. Otherwise this is the one.”</p>
+              <h3>Concept 05 · {conceptName(4)}</h3>
+              <p>One approved plating comes back, with the consultant’s notes for the kitchen.</p>
             </div>
             <b className="lp-stamp">Approved for tasting</b>
           </div>

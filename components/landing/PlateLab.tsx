@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react'
+import { saveHandoff } from '@/lib/client/dish-handoff'
 import { useMediaQuery } from '@/lib/client/hooks'
 import {
   CONCEPT_COUNT,
@@ -150,7 +151,8 @@ export default function PlateLab({ pick, onPick }: { pick: Pick; onPick: (concep
       ctx.lineWidth = Math.max(width, 0.5) * unit
       ctx.beginPath()
       if (points.length === 1) {
-        ctx.arc(points[0].x * unit, points[0].y * unit, points[0].w * unit * 0.16, 0, Math.PI * 2)
+        // A small glint near the edge: a pool of sauce is many times wider than a dot, and its shine does not grow with it.
+        ctx.arc((points[0].x - points[0].w * 0.18) * unit, (points[0].y - points[0].w * 0.18) * unit, Math.min(points[0].w * 0.16, 0.9) * unit, 0, Math.PI * 2)
         ctx.fill()
       } else {
         points.forEach((p, i) => (i ? ctx.lineTo(p.x * unit, p.y * unit) : ctx.moveTo(p.x * unit, p.y * unit)))
@@ -290,7 +292,14 @@ export default function PlateLab({ pick, onPick }: { pick: Pick; onPick: (concep
   }
 
   function enter() {
-    sessionStorage.setItem('fuddo-dish', dish)
+    const sauces = SAUCES.filter((s) => strokes.current.some((stroke) => stroke.color === s.color))
+    saveHandoff({
+      name: dish,
+      components: [
+        ...placed.map((p) => ({ name: foodById(p.id).name, role: foodById(p.id).role })),
+        ...sauces.map((s) => ({ name: s.name, role: 'sauce' as const })),
+      ],
+    })
     router.push('/auth?next=/studio')
   }
 
@@ -355,7 +364,7 @@ export default function PlateLab({ pick, onPick }: { pick: Pick; onPick: (concep
             <span aria-hidden="true">✦</span> Let FUDDO plate it
           </button>
           <button type="button" className="lp-take" onClick={enter}>
-            Take this plate to the studio <span aria-hidden="true">→</span>
+            Take this dish to the studio <span aria-hidden="true">→</span>
           </button>
         </div>
       </div>
