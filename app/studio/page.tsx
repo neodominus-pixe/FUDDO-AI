@@ -7,6 +7,7 @@ import ComponentList from '@/components/ComponentList'
 import PlatingThumb from '@/components/studio/PlatingThumb'
 import SpreadSnapshots, { type Snapshot, type SnapItem } from '@/components/studio/SpreadSnapshots'
 import PageContainer from '@/components/PageContainer'
+import { handoffComponents, takeHandoff } from '@/lib/client/dish-handoff'
 import { useHydrated, useOrigin } from '@/lib/client/hooks'
 import { prepareUpload } from '@/lib/client/resize-image'
 import type { Component, Dish, PlatingSpec } from '@/lib/types'
@@ -82,6 +83,20 @@ export default function Home() {
   // seconds on a phone over mobile data. Hold the actions disabled until they
   // actually work rather than looking ready and silently swallowing the click.
   const hydrated = useHydrated()
+
+  // A dish put together on the landing page arrives here, once. Session storage only exists in the browser, so this
+  // cannot be part of the first render.
+  useEffect(() => {
+    const brought = takeHandoff()
+    if (!brought) return
+    /* eslint-disable react-hooks/set-state-in-effect */
+    if (brought.name) setDishName(brought.name)
+    if (brought.components.length) {
+      setComponents(handoffComponents(brought))
+      setComponentsTouched(true)
+    }
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, [])
 
   const dish: Dish = useMemo(
     () => ({ id: 'dish-1', name: dishName, components, createdAt: new Date().toISOString() }),
