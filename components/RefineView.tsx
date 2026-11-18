@@ -565,7 +565,7 @@ export default function RefineView({
                 className="segmented px-2.5 py-1 text-xs min-h-11 flex items-center"
               >
                 ✦ Polish
-                <span className="ml-1.5 rounded bg-sunken px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-muted">Coming soon</span>
+                <span className="ml-1.5 rounded bg-sunken px-1.5 py-0.5 text-[12px] font-medium uppercase tracking-wider text-muted">Coming soon</span>
               </button>
               <div className="segmented" role="group" aria-label="Saved views">
                 {bookmarks.map((pose, i) => (
@@ -750,7 +750,7 @@ export default function RefineView({
 
           {onAddComponent ? (
             <Field label="Add an ingredient">
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <input
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
@@ -762,7 +762,7 @@ export default function RefineView({
                   }}
                   placeholder="e.g. pickled walnut"
                   aria-label="New ingredient name"
-                  className="field flex-1 text-base md:text-sm"
+                  className="field min-w-36 flex-1 basis-36 text-base md:text-sm"
                 />
                 <select
                   value={newRole}

@@ -394,7 +394,7 @@ export default function ReviewClient({ shareId }: { shareId: string }) {
             </label>
           </div>
 
-          <div className="mt-4 flex items-center gap-3">
+          <div className="mt-4 flex flex-wrap items-center gap-3">
             <button
               onClick={submit}
               disabled={saving || !picked}

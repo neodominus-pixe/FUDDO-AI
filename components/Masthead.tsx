@@ -18,7 +18,7 @@ export default function Masthead({ eyebrow, right }: { eyebrow: string; right?: 
           <p className="eyebrow hidden border-l border-rule pl-3 sm:block">{eyebrow}</p>
         </div>
         <div className="flex shrink-0 items-center gap-4">
-          {right ? <div className="hidden text-right text-[11px] text-faint md:block">{right}</div> : null}
+          {right ? <div className="hidden text-right text-xs text-faint md:block">{right}</div> : null}
           <ThemeToggle />
         </div>
       </div>

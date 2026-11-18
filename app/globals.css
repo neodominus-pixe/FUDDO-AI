@@ -320,11 +320,11 @@
   }
 
   .eyebrow {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.4;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     color: var(--faint);
   }
 
@@ -378,15 +378,15 @@
     border-radius: 4px;
     background: var(--brand);
     color: var(--on-brand);
-    font-size: 0.62em;
+    font-size: max(12px, 0.62em);
     font-weight: 700;
     letter-spacing: 0.04em;
     vertical-align: 0.18em;
   }
   .fuddo-word small {
     margin-top: 5px;
-    font-size: calc(var(--mark-size) * 0.2);
-    letter-spacing: 0.18em;
+    font-size: max(12px, calc(var(--mark-size) * 0.2));
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--faint);
   }
@@ -708,7 +708,7 @@
   border-radius: 50%;
   background: var(--brand);
   color: var(--on-brand);
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .land-kicker {
@@ -720,7 +720,7 @@
   border: 1px solid color-mix(in srgb, var(--brand) 35%, transparent);
   background: var(--accent-soft);
   color: var(--brand-ink);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 650;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -810,7 +810,7 @@
 }
 .auth-art p {
   color: var(--brand-ink);
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 650;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -873,7 +873,7 @@
   display: block;
   margin: 17px 0;
   color: var(--faint);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -909,7 +909,7 @@
   right: 12px;
   top: 21px;
   color: var(--brand-ink);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   cursor: pointer;
@@ -919,7 +919,7 @@
   justify-content: space-between;
   align-items: center;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
 }
 .auth-options label {
   display: flex;
@@ -942,12 +942,12 @@
   border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
   background: var(--danger-soft);
   color: var(--danger);
-  font-size: 11px;
+  font-size: 12px;
 }
 .auth-terms {
   text-align: center;
   color: var(--faint);
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 18px;
 }
 .auth-tools {
@@ -1005,7 +1005,7 @@
 .phase {
   position: absolute !important;
   color: var(--faint) !important;
-  font-size: 8px !important;
+  font-size: 12px !important;
   letter-spacing: 0.2em !important;
   animation: phase-pulse 4.5s ease-in-out infinite;
 }
@@ -1056,5 +1056,59 @@
   }
   38% {
     opacity: 0.3;
+  }
+}
+
+/* --- Touch ----------------------------------------------------------------
+   Phones, foldables and tablets. Controls grow to a size a fingertip can hit,
+   and form fields stay at 16px because iOS zooms the page in on anything
+   smaller. A mouse on a wide screen keeps the compact layout. */
+@media (max-width: 767.98px), (pointer: coarse) {
+  input:not([type='checkbox'], [type='radio'], [type='range'], [type='color'], [type='file']),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  button,
+  select,
+  input:not([type='checkbox'], [type='radio'], [type='file'], [type='hidden']),
+  [role='button'],
+  [role='tab'] {
+    min-height: 44px;
+  }
+  button,
+  [role='button'],
+  [role='tab'] {
+    min-width: 44px;
+  }
+  summary {
+    padding-block: 0.9rem;
+  }
+  .link-brand,
+  .auth-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  label:has(> input[type='checkbox']),
+  label:has(> input[type='radio']) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+  }
+  input[type='checkbox'],
+  input[type='radio'] {
+    flex: none;
+    width: 24px !important;
+    height: 24px;
+  }
+  /* The field sits 8px below the top of its wrapper, so its middle is 4px past the wrapper's. */
+  .password button {
+    top: calc(50% + 4px);
+    right: 4px;
+    translate: 0 -50%;
   }
 }
