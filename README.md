@@ -22,13 +22,13 @@ Requires **Node.js 24+** and either **Docker** (for a local Supabase, the easies
 
 ```sh
 npm install
-npm run db:start          # local Supabase on ports 55321–55324 (project "fuddo-ai"); applies supabase/migrations
+npm run db:start          # local Supabase on ports 44321–44324, below the range Windows can reserve (project "fuddo-ai"); applies supabase/migrations
 ```
 
 `db:start` prints the local URL and keys. Copy `.env.example` to `.env.local` and paste them in (the local demo keys are public and only work on your machine):
 
 ```sh
-NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:55321
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:44321
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...        # "anon key" / publishable key
 SUPABASE_SERVICE_ROLE_KEY=...            # "service_role key" / secret key
 ```
@@ -43,7 +43,7 @@ Create an account at `/auth`, then make yourself an administrator:
 npm run admin:grant -- you@example.com
 ```
 
-Password-reset emails from the local stack land in the mail catcher at <http://127.0.0.1:55324>. `npm run db:stop` stops the stack, `npm run db:reset` rebuilds the database from the migration.
+Password-reset emails from the local stack land in the mail catcher at <http://127.0.0.1:44324>. `npm run db:stop` stops the stack, `npm run db:reset` rebuilds the database from the migration.
 
 ### 2. Hosted Supabase
 

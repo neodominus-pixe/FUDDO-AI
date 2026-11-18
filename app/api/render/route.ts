@@ -4,7 +4,7 @@ import { apiError, apiSuccess, readJson, route } from '@/lib/api-response'
 import { guard } from '@/lib/auth'
 import { BackendError } from '@/lib/backend'
 import { costPerBatch } from '@/lib/pricing'
-import { generationQuota } from '@/lib/quota'
+import { enforceRate, generationQuota } from '@/lib/quota'
 import { renderOne, validateDish } from '@/lib/render'
 import { AngleSchema, DishSchema, PlatingSpecSchema } from '@/lib/schemas'
 
@@ -17,6 +17,7 @@ const RenderRequestSchema = z.object({
 export const POST = route(async (req: NextRequest) => {
   const g = await guard(req)
   if ('response' in g) return g.response
+  await enforceRate(g.user.id, 'render')
 
   const parsed = RenderRequestSchema.safeParse(await readJson(req))
   if (!parsed.success) return apiError('Missing or invalid plating spec / dish parameters.', 400, 'VALIDATION_ERROR', parsed.error.issues)

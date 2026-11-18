@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { themeScript } from '@/lib/theme-script'
 import './globals.css'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
@@ -18,11 +19,6 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: dark)', color: '#0d0c0b' },
   ],
 }
-
-/* Runs before the first paint, so a dark-mode visitor never gets a white flash
-   on the way in. Kept to one statement and inlined for that reason -- anything
-   loaded as a module would arrive after the page has already been painted. */
-const themeScript = `try{var t=localStorage.getItem('fuddo-theme');document.documentElement.dataset.theme=(t==='light'||t==='dark')?t:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}`
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
