@@ -135,7 +135,7 @@ suite('authentication', () => {
   })
 })
 
-const MAIL = process.env.E2E_MAIL_URL ?? 'http://127.0.0.1:55324'
+const MAIL = process.env.E2E_MAIL_URL ?? 'http://127.0.0.1:44324'
 
 /** The newest message sent to an address, from the local mail catcher (Mailpit). */
 async function waitForMail(to: string, timeoutMs = 10_000): Promise<{ text: string; html: string } | null> {
@@ -661,6 +661,32 @@ suite('response hardening', () => {
     assert.ok(res.headers.get('referrer-policy'))
     assert.equal(res.headers.get('x-powered-by'), null)
     assert.match(res.headers.get('cache-control') ?? '', /no-store/)
+  })
+
+  it('sends the content security policy with pages as well as API answers', async () => {
+    for (const path of ['/', '/api/auth/me']) {
+      const csp = (await fetch(BASE + path)).headers.get('content-security-policy') ?? ''
+      assert.match(csp, /frame-ancestors 'none'/, path)
+      assert.match(csp, /object-src 'none'/, path)
+    }
+  })
+
+  it('shows a real page, with a 404 status, for an address that does not exist', async () => {
+    const res = await fetch(BASE + '/no-such-page')
+    assert.equal(res.status, 404)
+    assert.match(await res.text(), /isn’t on the menu/)
+  })
+
+  it('slows down one chef who floods a route, without touching anyone else', async () => {
+    const { s } = await signUp()
+    const id = '00000000-0000-4000-8000-000000000000'
+    const answers = await Promise.all(Array.from({ length: 31 }, () => s.get(`/api/card/${id}`)))
+    const limited = answers.find((r) => r.status === 429)
+    assert.ok(limited, 'the 31st request in a minute is refused')
+    assert.equal(limited.headers.get('retry-after'), '60')
+
+    const { s: other } = await signUp()
+    assert.notEqual((await other.get(`/api/card/${id}`)).status, 429)
   })
 
   it('answers malformed JSON with a clean 400, not a stack trace', async () => {

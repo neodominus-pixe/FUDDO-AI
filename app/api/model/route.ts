@@ -4,6 +4,7 @@ import { apiError, apiSuccess, readJson, route } from '@/lib/api-response'
 import { guard } from '@/lib/auth'
 import { costPerModelBatch } from '@/lib/pricing'
 import { activeModelProviderId, getModelProvider } from '@/lib/providers3d'
+import { enforceRate } from '@/lib/quota'
 import { validateDish } from '@/lib/render'
 import { DishSchema, PlatingSpecSchema } from '@/lib/schemas'
 
@@ -16,6 +17,7 @@ const ModelRequestSchema = z.object({
 export const POST = route(async (req: NextRequest) => {
   const g = await guard(req)
   if ('response' in g) return g.response
+  await enforceRate(g.user.id, 'model')
 
   const parsed = ModelRequestSchema.safeParse(await readJson(req))
   if (!parsed.success) return apiError('Missing or invalid plating spec / dish parameters.', 400, 'VALIDATION_ERROR', parsed.error.issues)

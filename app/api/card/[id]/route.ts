@@ -5,7 +5,7 @@ import { backend } from '@/lib/backend'
 import { describePlacement, describeTweaks } from '@/lib/describe'
 import { layout } from '@/lib/layout'
 import { activeModelProviderId, getModelProvider } from '@/lib/providers3d'
-import { generationQuota } from '@/lib/quota'
+import { enforceRate, generationQuota } from '@/lib/quota'
 import { renderOne } from '@/lib/render'
 import type { Angle, Dish, PlatingSpec } from '@/lib/types'
 
@@ -14,6 +14,7 @@ const ANGLES: Angle[] = ['top-down', 'three-quarter', 'side']
 export const GET = route(async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
   const g = await guard(req)
   if ('response' in g) return g.response
+  await enforceRate(g.user.id, 'card')
   const { id } = await params
   const project = await backend.getProject(id) // owner or administrator (Row Level Security)
   if (!project) return apiError('Project not found.', 404)
